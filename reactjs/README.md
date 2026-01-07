@@ -73,4 +73,6 @@ npm install
 
 # Uygulamayı başlatın
 npm run dev
+
+
 Geliştirici: [Enes TUNA]
