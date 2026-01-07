@@ -1,0 +1,48 @@
+===========================================================
+          RENTGO ARAÇ KİRALAMA - PROJE TEKNİK RAPORU
+===========================================================
+
+
+
+PROJE TEKNOLOJİ YIĞINI (STACK):
+-------------------------------
+- Framework: ReactJS (Vite ile yapılandırıldı)
+- Tasarım  : Tailwind CSS (Responsive/Duyarlı Mimari)
+- Navigasyon: React Router DOM v6
+- İkon Seti: Font Awesome 6+
+- Veri     : JavaScript Object Notation (Mock Data)
+
+PROJE MİMARİSİ VE COMPONENT YAPISI:
+-----------------------------------
+
+1. COMPONENTLER (Bileşenler):
+   - Navbar.jsx: Dinamik giriş/çıkış kontrollü navigasyon.
+   - Hero.jsx: Giriş görseli ve arama formu modülü.
+   - WhyUs.jsx: İkonlu avantajlar bölümü (Dinamik Map yapılı).
+   - CarCard.jsx: Araç vitrin kartı tasarımı.
+   - Footer.jsx: Sayfa altı bilgi alanı.
+
+2. SAYFALAR (Pages):
+   - Home.jsx: Modüllerin birleştirildiği ana vizyon sayfası.
+   - Fleet.jsx: Tüm araçların listelendiği dinamik filo sayfası.
+   - WhyUsPage.jsx: Bağımsız "Neden Biz" bilgilendirme sayfası.
+   - Contact.jsx: Form ve harita entegreli iletişim sayfası.
+   - Profile.jsx: Kullanıcı oturum yönetim sayfası.
+   - CarDetail.jsx: ID bazlı dinamik araç detay sayfası.
+
+VERİTABANI VE GÜVENLİK SAVUNMASI:
+---------------------------------
+Projede MySQL bağlantısı yerine 'data.js' merkezi veri havuzu kullanılmıştır. 
+Bunun nedenleri:
+- Güvenlik: İstemci taraflı (Client-side) kodda DB şifrelerinin barındırılmaması.
+- Mimari: Sistemin REST API yapısına tam uyumlu (JSON tabanlı) kurgulanması.
+- Performans: Verilerin merkezi bir noktadan asenkron akışa uygun dağıtılması.
+
+KURULUM NOTU:
+-------------
+Proje klasörüne girdikten sonra 'npm install' komutu ile bağımlılıklar 
+yüklenmeli ve 'npm run dev' ile proje ayağa kaldırılmalıdır.
+(Not: node_modules klasörü dosya boyutu nedeniyle pakete dahil edilmemiştir.)
+===========================================================
+
+Enes TUNA
