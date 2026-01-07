@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTGO | Kiralık Araç Filosu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+       
+        .bg-primary { background-color: #4d2104; } 
+        .text-primary { color: #000000; } 
+        .bg-accent { background-color: #f97f39; } 
+        .hover\:bg-accent-dark:hover { background-color: #e86e28; }
+        .text-accent { color: #f97f39; }
+        
+        body { font-family: 'Roboto', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-lg sticky top-0 z-40"> 
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-extrabold text-primary tracking-tighter">
+                RENT<span class="text-accent">GO</span>
+            </a>
+            
+            <div class="flex items-center space-x-4">
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-accent font-medium transition duration-200">Ana Sayfa</a>
+                    <a href="araclar.html" class="text-accent font-medium transition duration-200 border-b-2 border-accent pb-1">Filo</a>
+                    <a href="nedenbiz.html" class="text-gray-700 hover:text-accent font-medium transition duration-200">Neden Biz?</a>
+                    <a href="iletisim.html" class="text-gray-700 hover:text-accent font-medium transition duration-200">İletişim</a>
+                </nav>
+
+                <div class="hidden md:block">
+                    <button id="loginButton" class="bg-accent hover:bg-accent-dark text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                        <i class="fas fa-user-circle mr-2"></i> Giriş Yap
+                    </button>
+                    
+                    <a href="profilim.html" id="profileButton" class="hidden bg-primary hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                        <i class="fas fa-user-circle mr-2"></i> Profilim
+                    </a>
+                </div>
+
+                <button class="md:hidden text-2xl text-primary">    
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="py-12 md:py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-5xl font-extrabold text-primary text-center mb-4">
+                Uygun Araçlarımızı Keşfedin
+            </h1>
+            <p id="searchSummary" class="text-xl text-gray-600 text-center mb-10 font-semibold">
+                Tüm araçlar listeleniyor...
+            </p>
+
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Detaylı Filtreleme</h3>
+                <form id="carFilterForm" class="grid grid-cols-2 md:grid-cols-6 gap-4 items-end">
+                    
+                    <div class="col-span-2 md:col-span-1">
+                        <label for="kategori" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                        <select id="kategori" name="kategori" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent">
+                            <option value="">Tüm Sınıflar</option>
+                            <option value="Lüks">Lüks Sınıf</option>
+                            <option value="Konfor">Konfor Sınıf</option>
+                            <option value="Spor">Spor Sınıf</option>
+                        </select>
+                    </div>
+
+                    <div class="col-span-2 md:col-span-1">
+                        <label for="yakit" class="block text-sm font-medium text-gray-700 mb-1">Yakıt Tipi</label>
+                        <select id="yakit" name="yakit" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent">
+                            <option value="">Tümü</option>
+                            <option value="Dizel">Dizel</option>
+                            <option value="Benzin">Benzin</option>
+                            </select>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-1">
+                        <label for="vites" class="block text-sm font-medium text-gray-700 mb-1">Vites Tipi</label>
+                        <select id="vites" name="vites" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent">
+                            <option value="">Tümü</option>
+                            <option value="Otomatik">Otomatik</option>
+                            </select>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-1">
+                        <label for="gunluk_fiyat" class="block text-sm font-medium text-gray-700 mb-1">Max Günlük Fiyat</label>
+                        <input type="range" id="gunluk_fiyat" name="gunluk_fiyat" min="500" max="3500" step="100" value="3500" class="w-full h-8 appearance-none bg-gray-200 rounded-lg cursor-pointer accent-accent">
+                        <span id="fiyat_deger" class="block text-sm text-gray-500 text-center mt-1">3500 TL</span>
+                    </div>
+
+                    <div class="col-span-2 md:col-span-1">
+                        <button type="button" id="applyFilters" class="w-full bg-primary hover:bg-gray-700 text-white font-bold py-3 rounded-lg shadow-md transition duration-200 text-lg">
+                            Filtrele
+                        </button>
+                    </div>
+                     <div class="col-span-2 md:col-span-1">
+                        <button type="button" id="resetFilters" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 rounded-lg shadow-md transition duration-200 text-lg">
+                            Temizle
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div id="carList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
+                <div class="car-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300" 
+                     data-model="Audi A4" data-kategori="Lüks" data-yakit="Dizel" data-vites="Otomatik" data-fiyat="2500">
+                    <img src="./resimler/audi_a4.jpg" alt="Audi A4" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Audi A4</h4>
+                        <span class="inline-block bg-primary/10 text-primary text-xs font-semibold px-2.5 py-0.5 rounded-full mb-3">Lüks Sınıf</span>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-4xl font-extrabold text-accent">2500 TL</span>
+                            <span class="text-gray-500">/ Günlük</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span><i class="fas fa-user-friends mr-1"></i> 5 Kişi</span>
+                            <span><i class="fas fa-gas-pump mr-1"></i> Dizel</span>
+                            <span><i class="fas fa-cogs mr-1"></i> Otomatik</span>
+                        </div>
+                       <a href="detay_audi.html" class="block text-center w-full bg-primary hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition duration-200">
+                            Hemen Kirala
+                        </a>
+                    </div>
+                </div>
+
+                <div class="car-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300" 
+                     data-model="Mercedes AMG" data-kategori="Konfor" data-yakit="Benzin" data-vites="Otomatik" data-fiyat="3000">
+                    <img src="./resimler/mercedes_amg.jpg" alt="Mercedes AMG" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Mercedes AMG</h4>
+                        <span class="inline-block bg-primary/10 text-primary text-xs font-semibold px-2.5 py-0.5 rounded-full mb-3">Konfor Sınıf</span>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-4xl font-extrabold text-accent">3000 TL</span>
+                            <span class="text-gray-500">/ Günlük</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span><i class="fas fa-user-friends mr-1"></i> 4 Kişi</span>
+                            <span><i class="fas fa-gas-pump mr-1"></i> Benzin</span>
+                            <span><i class="fas fa-cogs mr-1"></i> Otomatik</span>
+                        </div>
+                       <a href="detay_mercedes.html" class="block text-center w-full bg-primary hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition duration-200">
+                            Hemen Kirala
+                        </a>
+                    </div>
+                </div>
+
+                <div class="car-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300" 
+                     data-model="BMW 4 Serisi" data-kategori="Spor" data-yakit="Benzin" data-vites="Otomatik" data-fiyat="2800">
+                    <img src="./resimler/bmw_4.jpg" alt="BMW 4 Serisi" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">BMW 4 Serisi</h4>
+                        <span class="inline-block bg-primary/10 text-primary text-xs font-semibold px-2.5 py-0.5 rounded-full mb-3">Spor Sınıf</span>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-4xl font-extrabold text-accent">2800 TL</span>
+                            <span class="text-gray-500">/ Günlük</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span><i class="fas fa-user-friends mr-1"></i> 5 Kişi</span>
+                            <span><i class="fas fa-gas-pump mr-1"></i> Benzin</span>
+                            <span><i class="fas fa-cogs mr-1"></i> Otomatik</span>
+                        </div>
+                       <a href="detay_bmw.html" class="block text-center w-full bg-primary hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition duration-200">
+                            Hemen Kirala
+                        </a>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+    </main>
+    <footer id="iletisim" class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-2xl font-bold text-accent mb-4">RENTGO</h4>
+                <p class="text-gray-400 text-sm">Güvenilir, hızlı ve kolay araç kiralama deneyimi için ilk adresiniz.</p>  
+                <div class="flex space-x-3 mt-4 text-xl">
+                    <a href="#" class="hover:text-accent"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-accent"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-accent"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Hızlı Erişim</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Şartlar ve Koşullar</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Gizlilik Politikası</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Sıkça Sorulan Sorular</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Filo</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Konfor Sınıfı</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Spor Sınıfı</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Lüks ve Spor</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Bize Ulaşın</h4>
+                <p class="text-gray-400 text-sm"><i class="fas fa-phone-alt mr-2 text-accent"></i> +90 (539) 379 85 25</p>
+                <p class="text-gray-400 text-sm mt-2"><i class="fas fa-envelope mr-2 text-accent"></i> info@rentgo.com</p>
+                <p class="text-gray-400 text-sm mt-2"><i class="fas fa-map-marker-alt mr-2 text-accent"></i> Bahçelievler Mah. Efeler Caddesi Bergama/İzmir</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+            &copy; 2025 RENTGO. Tüm Hakları Saklıdır.
+        </div>
+    </footer>
+    <div id="authModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl w-11/12 max-w-md p-8 relative">
+        <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+
+        <div id="loginForm">
+            <h2 class="text-3xl font-bold text-center mb-6 text-primary">Giriş Yap</h2>
+            <form id="jsLoginForm" class="space-y-4">
+                <input type="email" name="email" placeholder="E-posta" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-accent focus:border-accent">
+                <input type="password" name="password" placeholder="Şifre" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-accent focus:border-accent">
+                <button type="submit" class="w-full bg-accent hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition duration-200">Giriş Yap</button>
+            </form>
+            <p class="text-center text-sm text-gray-600 mt-4">
+                Hesabınız yok mu?
+                <button id="showRegister" class="text-accent hover:underline font-semibold">Üye Ol</button>
+            </p>
+        </div>
+
+        <div id="registerForm" class="hidden">
+            <h2 class="text-3xl font-bold text-center mb-6 text-primary">Üye Ol</h2>
+            <form id="jsRegisterForm" class="space-y-4">
+                <input type="text" name="adsoyad" placeholder="Ad Soyad" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-accent focus:border-accent">
+                <input type="email" name="email" placeholder="E-posta" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-accent focus:border-accent">
+                <input type="password" name="password" placeholder="Şifre" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-accent focus:border-accent">
+                <button type="submit" class="w-full bg-accent hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition duration-200">Üye Ol</button>
+            </form>
+            <p class="text-center text-sm text-gray-600 mt-4">
+                Zaten hesabınız var mı?
+                <button id="showLogin" class="text-accent hover:underline font-semibold">Giriş Yap</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const authModal = document.getElementById('authModal');
+        const loginButton = document.getElementById('loginButton');
+        const profileButton = document.getElementById('profileButton');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const showRegisterButton = document.getElementById('showRegister');
+        const showLoginButton = document.getElementById('showLogin');
+        const jsLoginForm = document.getElementById('jsLoginForm');
+        const jsRegisterForm = document.getElementById('jsRegisterForm');
+
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; 
+
+        function updateAuthButtons() {
+            if (isLoggedIn) {
+                loginButton.classList.add('hidden');
+                profileButton.classList.remove('hidden');
+            } else {
+                loginButton.classList.remove('hidden');
+                profileButton.classList.add('hidden');
+            }
+        }
+        
+        updateAuthButtons(); 
+
+        loginButton.addEventListener('click', function() {
+            authModal.classList.remove('hidden');
+            authModal.classList.add('flex');
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+
+        closeModal.addEventListener('click', function() {
+            authModal.classList.add('hidden');
+            authModal.classList.remove('flex');
+        });
+
+        authModal.addEventListener('click', function(e) {
+            if (e.target === authModal) {
+                authModal.classList.add('hidden');
+                authModal.classList.remove('flex');
+            }
+        });
+
+        showRegisterButton.addEventListener('click', function() {
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+        });
+
+        showLoginButton.addEventListener('click', function() {
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+
+        jsLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
+            alert("Giriş Başarılı! Hoş geldiniz."); 
+            authModal.classList.add('hidden');
+            authModal.classList.remove('flex');
+            updateAuthButtons(); 
+            jsLoginForm.reset();
+        });
+
+        jsRegisterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
+            alert("Üyelik Başarılı! Otomatik olarak giriş yaptınız."); 
+            authModal.classList.add('hidden');
+            authModal.classList.remove('flex');
+            updateAuthButtons(); 
+            jsRegisterForm.reset();
+        });
+
+      
+        const carCards = document.querySelectorAll('.car-card');
+        const kategoriSelect = document.getElementById('kategori');
+        const yakitSelect = document.getElementById('yakit');
+        const vitesSelect = document.getElementById('vites');
+        const fiyatRange = document.getElementById('gunluk_fiyat');
+        const fiyatDeger = document.getElementById('fiyat_deger');
+        const applyFiltersButton = document.getElementById('applyFilters');
+        const resetFiltersButton = document.getElementById('resetFilters');
+        const searchSummary = document.getElementById('searchSummary');
+
+
+      
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                alis_yeri: params.get('alis_yeri') || '',
+                birakma_yeri: params.get('birakma_yeri') || '',
+                alis_tarihi: params.get('alis_tarihi') || '',
+                birakma_tarihi: params.get('birakma_tarihi') || ''
+            };
+        }
+
+       
+        function displaySearchSummary() {
+            const params = getQueryParams();
+            let summary = 'Tüm araçlar listeleniyor.';
+
+            if (params.alis_yeri || params.alis_tarihi) {
+                let parts = [];
+                if (params.alis_yeri) parts.push(`<b>${params.alis_yeri}</b> için`);
+                if (params.alis_tarihi && params.birakma_tarihi) {
+                    parts.push(`<b>${params.alis_tarihi}</b> - <b>${params.birakma_tarihi}</b> tarihleri arasında`);
+                } else if (params.alis_tarihi) {
+                     parts.push(`<b>${params.alis_tarihi}</b> tarihinden itibaren`);
+                }
+                
+                if (parts.length > 0) {
+                    summary = parts.join(' ') + ' uygun araçlar listeleniyor.';
+                }
+            }
+            
+            searchSummary.innerHTML = summary; 
+        }
+
+       
+        function applyFilters() {
+            const selectedKategori = kategoriSelect.value;
+            const selectedYakit = yakitSelect.value;
+            const selectedVites = vitesSelect.value;
+            const maxFiyat = parseFloat(fiyatRange.value);
+
+            let visibleCount = 0;
+
+            carCards.forEach(card => {
+                const carKategori = card.getAttribute('data-kategori');
+                const carYakit = card.getAttribute('data-yakit');
+                const carVites = card.getAttribute('data-vites');
+                const carFiyat = parseFloat(card.getAttribute('data-fiyat'));
+
+                let isVisible = true;
+
+                
+                if (selectedKategori && carKategori !== selectedKategori) {
+                    isVisible = false;
+                }
+
+                
+                if (selectedYakit && carYakit !== selectedYakit) {
+                    isVisible = false;
+                }
+
+              
+                if (selectedVites && carVites !== selectedVites) {
+                    isVisible = false;
+                }
+                
+              
+                if (carFiyat > maxFiyat) {
+                    isVisible = false;
+                }
+
+                if (isVisible) {
+                    card.style.display = 'block'; 
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                 console.log("Filtrelere uyan araç bulunamadı.");
+            }
+        }
+        
+        
+        fiyatRange.addEventListener('input', function() {
+            fiyatDeger.textContent = `${this.value} TL`;
+        });
+
+      
+        applyFiltersButton.addEventListener('click', applyFilters);
+        
+       
+        resetFiltersButton.addEventListener('click', function() {
+           
+            document.getElementById('carFilterForm').reset();
+            
+            fiyatRange.value = fiyatRange.max;
+            fiyatDeger.textContent = `${fiyatRange.max} TL`; 
+            
+          
+            applyFilters();
+           
+            displaySearchSummary(); 
+        });
+
+        
+        displaySearchSummary();
+        
+      
+        applyFilters(); 
+    });
+</script>
+
+</body>
+</html>

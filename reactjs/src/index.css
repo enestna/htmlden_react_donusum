@@ -1,0 +1,40 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.bg-primary { 
+  background-color: #4d2104; 
+}
+
+.text-primary { 
+  color: #000000; 
+}
+
+
+.text-primary-dark {
+    color: #4d2104;
+}
+
+.bg-accent { 
+  background-color: #f97f39; 
+}
+
+.text-accent { 
+  color: #f97f39; 
+}
+
+.hover\:bg-accent-dark:hover { 
+  background-color: #e86e28; 
+}
+
+
+body { 
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
